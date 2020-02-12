@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "projects": {
+    "boilerplate": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/boilerplate",
+      "sourceRoot": "apps/boilerplate/src",
+      "prefix": "flex-material",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/boilerplate",
+            "index": "apps/boilerplate/src/index.html",
+            "main": "apps/boilerplate/src/main.ts",
+            "polyfills": "apps/boilerplate/src/polyfills.ts",
+            "tsConfig": "apps/boilerplate/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/boilerplate/src/favicon.ico",
+              "apps/boilerplate/src/assets"
+            ],
+            "styles": ["apps/boilerplate/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/boilerplate/src/environments/environment.ts",
+                  "with": "apps/boilerplate/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "boilerplate:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "boilerplate:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "boilerplate:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/boilerplate/tsconfig.app.json",
+              "apps/boilerplate/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/boilerplate/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/boilerplate/jest.config.js",
+            "tsConfig": "apps/boilerplate/tsconfig.spec.json",
+            "setupFile": "apps/boilerplate/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "boilerplate-e2e": {
+      "root": "apps/boilerplate-e2e",
+      "sourceRoot": "apps/boilerplate-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/boilerplate-e2e/cypress.json",
+            "tsConfig": "apps/boilerplate-e2e/tsconfig.e2e.json",
+            "devServerTarget": "boilerplate:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "boilerplate:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/boilerplate-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/boilerplate-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": "e3228141-d940-4463-a6c3-f0f887bf2dea"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "boilerplate"
+}
